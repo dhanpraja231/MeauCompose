@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "368674793161",
+    "project_id": "meaucompose",
+    "storage_bucket": "meaucompose.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368674793161:android:dd58f817cdf1192ba2cf18",
+        "android_client_info": {
+          "package_name": "com.fyp.meaucompose"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368674793161-h0lruqbk1gesj8jpqo63cladq46k95kd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmHQH_EBG-I-m5zlVJQnaJa8tmf8Szsbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368674793161-h0lruqbk1gesj8jpqo63cladq46k95kd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
