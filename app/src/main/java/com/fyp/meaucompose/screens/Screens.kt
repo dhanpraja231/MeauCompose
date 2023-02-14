@@ -1,0 +1,10 @@
+package com.fyp.meaucompose.screens
+
+import com.fyp.meaucompose.screens.Screens.LoginScreen.route
+
+sealed class Screens(val route:String) {
+
+    object LoginScreen : Screens("login_screen")
+    object UserHomeScreen : Screens("user_home_screen")
+
+}

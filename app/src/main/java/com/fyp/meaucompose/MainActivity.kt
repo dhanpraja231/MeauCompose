@@ -10,6 +10,9 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.fyp.meaucompose.screens.Screens
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -21,9 +24,10 @@ import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var auth: FirebaseAuth
+    //private lateinit var auth: FirebaseAuth
     lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var signInLauncher: ActivityResultLauncher<Intent>
+
 
 
     override fun onStart() {
@@ -42,16 +46,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        super.onCreate(savedInstanceState)
-
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
 
         mGoogleSignInClient = GoogleSignIn.getClient(
             this,
             gso
-        ) // since googleApiClient is deprecated, have to use workaround
-
+        )// since googleApiClient is deprecated, have to use workaround
 
         signInLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),
@@ -61,8 +62,15 @@ class MainActivity : ComponentActivity() {
                 handleSignInResult(task)
             })
 
-        setContent {
-            LoginScreen(mGoogleSignInClient,signInLauncher)
+        super.onCreate(savedInstanceState)
+
+        setContent{
+
+
+            Navigation(mGoogleSignInClient = mGoogleSignInClient, signInLauncher = signInLauncher)
+
+//            LoginScreen(mGoogleSignInClient,signInLauncher, navController = rememberNavController(
+//            ))
         }
 
 //            var username by remember{mutableStateOf<String>("")}
@@ -133,17 +141,18 @@ class MainActivity : ComponentActivity() {
 //        }
     }
 
-    private fun signIn() {
-        println("void sign in")
-        val signInIntent = mGoogleSignInClient.signInIntent
-        signInLauncher.launch(signInIntent)
-        println("got sign in intent")
-    }
-
+//    private fun signIn() {
+//        println("void sign in")
+//        val signInIntent = mGoogleSignInClient.signInIntent
+//        signInLauncher.launch(signInIntent)
+//        println("got sign in intent")
+//    }
+//
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             val idToken = account.idToken
+//            navController.navigate(Screens.UserHomeScreen.route)
 //            val intent = Intent(this@LoginActivity, UserHomeActivity::class.java)
 //            startActivity(intent)
         } catch (e: ApiException) {
@@ -152,14 +161,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun signOut() {
-        mGoogleSignInClient.signOut()
-            .addOnCompleteListener(this) {
-                Log.d("Signed Out: ", "Successful")
-                Toast.makeText(this, "Signed out successfully", Toast.LENGTH_SHORT)
-                    .show()
-            }
-    }
+//    private fun signOut() {
+//        mGoogleSignInClient.signOut()
+//            .addOnCompleteListener(this) {
+//                Log.d("Signed Out: ", "Successful")
+//                Toast.makeText(this, "Signed out successfully", Toast.LENGTH_SHORT)
+//                    .show()
+//            }
+//    }
 
 }
 
