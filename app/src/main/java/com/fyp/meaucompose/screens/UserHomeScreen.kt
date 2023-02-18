@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,7 +39,6 @@ import com.alexstyl.swipeablecard.ExperimentalSwipeableCardApi
 import com.alexstyl.swipeablecard.rememberSwipeableCardState
 import com.alexstyl.swipeablecard.swipableCard
 import com.fyp.meaucompose.AppBar
-import com.fyp.meaucompose.LoginScreen
 import com.fyp.meaucompose.Navigation
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -51,7 +51,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalSwipeableCardApi::class)
 @Composable
-fun UserHomeScreen(navController: NavController, mGoogleSignInClient: GoogleSignInClient) {
+fun UserHomeScreen(navController: NavController
+ //                  , mGoogleSignInClient: GoogleSignInClient
+)
+{
     var context = LocalContext.current
     var userName: String = GoogleSignIn.getLastSignedInAccount(context)?.displayName.toString()
     val scaffoldState = rememberScaffoldState()
@@ -66,7 +69,7 @@ fun UserHomeScreen(navController: NavController, mGoogleSignInClient: GoogleSign
                 }
             },
             context = context,
-            mGoogleSignInClient = mGoogleSignInClient,
+            //mGoogleSignInClient = mGoogleSignInClient,
             navController = navController
 
                 )
@@ -74,24 +77,26 @@ fun UserHomeScreen(navController: NavController, mGoogleSignInClient: GoogleSign
         drawerContent = {
             DrawerHeader(
             )
-            DrawerBody(items =
-            listOf(
-                NavDrawerItem(
-                    id = "home",
-                    title = "Home",
-                    contentDescription = "Go to home screen",
-                    icon = Icons.Default.Home
-                ),
-                NavDrawerItem(
-                    id = "settings",
-                    title = "Settings",
-                    contentDescription = "Go to settings screen",
-                    icon = Icons.Default.Settings
-                ),
-            ), onItemCLick = {
-                Toast.makeText(context, "clicked on ${it.title}", Toast.LENGTH_SHORT).show()
-            }
-
+            DrawerBody(
+//                items =
+//            listOf(
+//                NavDrawerItem(
+//                    id = "home",
+//                    title = "Home",
+//                    contentDescription = "Go to home screen",
+//                    icon = Icons.Default.Home
+//                ),
+//                NavDrawerItem(
+//                    id = "settings",
+//                    title = "Settings",
+//                    contentDescription = "Go to settings screen",
+//                    icon = Icons.Default.Settings
+//                ),
+//            ), onItemCLick = {
+//                Toast.makeText(context, "clicked on ${it.title}", Toast.LENGTH_SHORT).show()
+//            }
+            context = context,
+                navController = navController
 
             )
 
@@ -105,7 +110,7 @@ fun UserHomeScreen(navController: NavController, mGoogleSignInClient: GoogleSign
                     .background(
                         Brush.verticalGradient(
                             listOf(
-                                Color(0xfff68084),
+                                Color(0xffffffff),
                                 Color(0xffa6c0fe),
                             )
                         )
@@ -133,14 +138,14 @@ fun UserHomeScreen(navController: NavController, mGoogleSignInClient: GoogleSign
 //                }
 
 
-                Box {
+                Box() {
                     val states = profiles.reversed()
                         .map { it to rememberSwipeableCardState() }
                     var hint by remember {
                         mutableStateOf("Swipe a card or press a button below")
                     }
 
-                    Hint(hint)
+                    //Hint(hint)
 
                     val scope: CoroutineScope = rememberCoroutineScope()
                     Box(
@@ -154,7 +159,7 @@ fun UserHomeScreen(navController: NavController, mGoogleSignInClient: GoogleSign
                             if (state.swipedDirection == null) {
                                 ProfileCard(
                                     modifier = Modifier
-                                        .fillMaxSize()
+                                        .requiredHeight(600.dp)
                                         .swipableCard(
                                             state = state,
                                             blockedDirections = listOf(Direction.Down),
@@ -185,31 +190,31 @@ fun UserHomeScreen(navController: NavController, mGoogleSignInClient: GoogleSign
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        CircleButton(
-                            onClick = {
-                                scope.launch {
-                                    val last = states.reversed()
-                                        .firstOrNull {
-                                            it.second.offset.value == Offset(0f, 0f)
-                                        }?.second
-                                    last?.swipe(Direction.Left)
-                                }
-                            },
-                            icon = Icons.Rounded.Close
-                        )
-                        CircleButton(
-                            onClick = {
-                                scope.launch {
-                                    val last = states.reversed()
-                                        .firstOrNull {
-                                            it.second.offset.value == Offset(0f, 0f)
-                                        }?.second
-
-                                    last?.swipe(Direction.Right)
-                                }
-                            },
-                            icon = Icons.Rounded.Favorite
-                        )
+//                        CircleButton(
+//                            onClick = {
+//                                scope.launch {
+//                                    val last = states.reversed()
+//                                        .firstOrNull {
+//                                            it.second.offset.value == Offset(0f, 0f)
+//                                        }?.second
+//                                    last?.swipe(Direction.Left)
+//                                }
+//                            },
+//                            icon = Icons.Rounded.Close
+//                        )
+//                        CircleButton(
+//                            onClick = {
+//                                scope.launch {
+//                                    val last = states.reversed()
+//                                        .firstOrNull {
+//                                            it.second.offset.value == Offset(0f, 0f)
+//                                        }?.second
+//
+//                                    last?.swipe(Direction.Right)
+//                                }
+//                            },
+//                            icon = Icons.Rounded.Favorite
+//                        )
                     }
                 }
             }
@@ -244,8 +249,9 @@ private fun ProfileCard(
     modifier: Modifier,
     matchProfile: MatchProfile,
 ) {
-    Card(modifier) {
-        Box {
+    //TODO: change card height
+    Card(modifier = modifier) {
+        Box() {
             Image(contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
                 painter = painterResource(matchProfile.drawableResId),
@@ -272,7 +278,7 @@ private fun Hint(text: String) {
     ) {
         Text(
             text = text,
-            color = MaterialTheme.colors.onPrimary,
+            color = Color.DarkGray,
             fontWeight = FontWeight.Bold,
             fontSize = 22.sp,
             textAlign = TextAlign.Center
@@ -323,4 +329,5 @@ fun signOut(context: Context, mGoogleSignInClient: GoogleSignInClient) {
             Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT)
                 .show()
         }
+
 }
