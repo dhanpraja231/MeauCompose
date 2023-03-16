@@ -64,7 +64,7 @@ fun DrawerBody(
                 icon = Icons.Default.Home
             ),
             NavDrawerItem(
-                id = "Edit preferences",
+                id = "Edit Preferences",
                 title = "Edit Preferences",
                 contentDescription = "Go to Edit Preferences screen",
                 icon = Icons.Default.Favorite
@@ -101,6 +101,8 @@ fun DrawerBody(
         when(it.id){
             "Home Screen" -> navController.navigate(Screens.UserHomeScreen.route)
             "My Projects" -> navController.navigate(Screens.MyProjectsScreen.route)
+            "Edit Preferences" -> navController.navigate(Screens.EditPreferencesScreen.route)
+            "FAQ" -> navController.navigate(Screens.FAQScreen.route)
             else -> Toast.makeText(context, "clicked on ${it.title}", Toast.LENGTH_SHORT).show()
         }
 

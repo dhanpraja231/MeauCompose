@@ -47,10 +47,16 @@ android {
     }
 }
 
+//repositories {
+//    mavenCentral()
+//    google()
+//}
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     def nav_version = "2.5.3"
 
     implementation "androidx.navigation:navigation-compose:$nav_version"
@@ -68,7 +74,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'androidx.multidex:multidex:2.0.1'
-
+    implementation "com.google.accompanist:accompanist-flowlayout:0.23.1"
     //tinder swipe dependency
     implementation 'com.alexstyl.swipeablecard:swipeablecard:0.1.0'
     implementation "com.google.accompanist:accompanist-insets:0.23.1"

@@ -10,9 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.fyp.meaucompose.screens.MyProjectsScreen
-import com.fyp.meaucompose.screens.Screens
-import com.fyp.meaucompose.screens.UserHomeScreen
+import com.fyp.meaucompose.screens.*
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 @Composable
@@ -28,6 +26,12 @@ fun Navigation( ) {
         }
         composable(route = Screens.MyProjectsScreen.route){
             MyProjectsScreen(navController = navController)
+        }
+        composable(route = Screens.EditPreferencesScreen.route){
+            EditPreferencesScreen(navController = navController)
+        }
+        composable(route = Screens.FAQScreen.route){
+            FAQScreen(navController = navController)
         }
 
     }

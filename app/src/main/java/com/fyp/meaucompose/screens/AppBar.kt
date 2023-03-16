@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
-import com.fyp.meaucompose.screens.signOut
+//import com.fyp.meaucompose.screens.signOut
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -27,7 +27,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 @Composable
 fun AppBar(onNavigationIconClick: () -> Unit, context: Context,
            //mGoogleSignInClient: GoogleSignInClient,
-           navController:NavController) {
+           navController:NavController,
+            titleText:String = "NA"
+           ) {
     var userName = GoogleSignIn.getLastSignedInAccount(context)?.displayName.toString()
     if (userName.length > 10){
         userName = userName.substring(0,11)
@@ -45,7 +47,9 @@ fun AppBar(onNavigationIconClick: () -> Unit, context: Context,
         title = {
             Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxSize()) {
                 Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.Center){
-                Text(text = "Welcome ${userName}",
+                val titleString = if(titleText.equals("NA"))  "Welcome ${userName}" else titleText
+
+                Text(text = titleString,
                     fontSize = 18.sp,
                     modifier = Modifier.fillMaxHeight().widthIn(min = 150.dp,max = 190.dp).padding(top= 10.dp),
                     textAlign = TextAlign.Center,

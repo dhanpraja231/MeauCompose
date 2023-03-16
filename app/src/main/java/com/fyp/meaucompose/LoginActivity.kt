@@ -11,16 +11,17 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.fyp.meaucompose.ui.theme.MeauComposeTheme
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -74,7 +75,7 @@ class LoginActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
-        setContent{
+        setContent {
 //            LoginScreen(mGoogleSignInClient = mGoogleSignInClient, signInLauncher = signInLauncher)
 
 //            Navigation(mGoogleSignInClient = mGoogleSignInClient, signInLauncher = signInLauncher)
@@ -84,43 +85,57 @@ class LoginActivity : ComponentActivity() {
 //        }
 
 //            var username by remember{mutableStateOf<String>("")}
-//
+            val scaffoldState = rememberScaffoldState()
             MeauComposeTheme {
+                Scaffold(scaffoldState = scaffoldState,
+                    floatingActionButtonPosition = FabPosition.End,
+                    floatingActionButton = {
+                        FloatingActionButton(onClick = {
+                            val intent = Intent(this@LoginActivity, FAQActivity::class.java)
+                            startActivity(intent)
 
-                Column(modifier = Modifier.fillMaxSize()
-                    , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center
-                ) {
-                    val context = LocalContext.current
+                        }, backgroundColor = Color.Black) {
+                            Text("FAQ")
+                        }
+                    }) {
 
-                    Button(
-                        onClick = {
-                            //startForResult.launch(googleSignInClient?.signInIntent)
-                                  signIn()
+                    Column(
+                        modifier = Modifier.fillMaxSize().padding(it),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+
+                    ) {
+                        val context = LocalContext.current
+
+                        Button(
+                            onClick = {
+                                //startForResult.launch(googleSignInClient?.signInIntent)
+                                signIn()
 
 
 //                            val account = GoogleSignIn.getLastSignedInAccount(context);
 //                            if (account != null) username = GoogleSignIn.getLastSignedInAccount(context)?.displayName.toString() else username = "not found"
 
 
-                        },
+                            },
 
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 10.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 10.dp),
                             //.height(100.dp)
                             //.padding(start = 16.dp, end = 16.dp),
-                        shape = RoundedCornerShape(6.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.Black,
-                            contentColor = Color.White
-                        )
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.icons8_google),
-                            contentDescription = ""
-                        )
-                        Text(text = "Sign in with Google", modifier = Modifier.padding(6.dp))
-                    }
+                            shape = RoundedCornerShape(6.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = Color.Black,
+                                contentColor = Color.White
+                            )
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.icons8_google),
+                                contentDescription = ""
+                            )
+                            Text(text = "Sign in with Google", modifier = Modifier.padding(6.dp))
+                        }
 //                    Button(
 //                        onClick = {
 //                            //startForResult.launch(googleSignInClient?.signInIntent)
@@ -145,6 +160,7 @@ class LoginActivity : ComponentActivity() {
 //                        Text(text = "Sign out with Google", modifier = Modifier.padding(6.dp))
 //                    }
 //                    Text(text = "$username", fontSize = 30.sp, textAlign = TextAlign.Center)
+                    }
                 }
             }
         }
@@ -168,6 +184,7 @@ class LoginActivity : ComponentActivity() {
 //            navController.navigate(Screens.UserHomeScreen.route)
             val intent = Intent(this@LoginActivity, UserHomeActivity::class.java)
             startActivity(intent)
+            finish()
         } catch (e: ApiException) {
             Log.w("Sign In Error", "signInResult:failed code=" + e.statusCode)
             Toast.makeText(this, "Sign in failed", Toast.LENGTH_SHORT).show()

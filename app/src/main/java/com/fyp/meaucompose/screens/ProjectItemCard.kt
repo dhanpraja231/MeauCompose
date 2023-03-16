@@ -3,18 +3,18 @@ package com.fyp.meaucompose.screens
 import androidx.annotation.DrawableRes
 import com.fyp.meaucompose.R
 
-data class MatchProfile(
+data class ProjectItemCard(
     val name: String,
     @DrawableRes val drawableResId: Int,
 )
 
-val profiles = listOf(
-    MatchProfile("Erlich Bachman", R.drawable.icons8_google),
-    MatchProfile("Richard Hendricks",R.drawable.icons8_google),
-    MatchProfile("Laurie Bream",R.drawable.icons8_google),
-    MatchProfile("Russ Hanneman", R.drawable.icons8_google),
-    MatchProfile("Dinesh Chugtai", R.drawable.icons8_google),
-    MatchProfile("Monica Hall", R.drawable.icons8_google),
+val sampleProjectList = listOf(
+    ProjectItemCard("Android Project", R.drawable.icons8_google),
+    ProjectItemCard("Image Processing Project",R.drawable.icons8_google),
+    ProjectItemCard("Uber Clone",R.drawable.icons8_google),
+    ProjectItemCard("Sample Project4", R.drawable.icons8_google),
+    ProjectItemCard("Google Clone", R.drawable.icons8_google),
+    ProjectItemCard("Sample Project 5", R.drawable.icons8_google),
 //    MatchProfile("Bertram Gilfoyle", R.drawable.gilfoyle),
 //
 //    MatchProfile("Peter Gregory", R.drawable.peter),

@@ -71,27 +71,31 @@ fun MyProjectsScreen(navController: NavController) {
 
         },
         content ={ scaffoldPadding ->
+//            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
+//                Text("My Projects")
+//            }
             LazyColumn(modifier = Modifier.padding(scaffoldPadding)){
 
                 itemsIndexed(
                     //TODO: Create project item extending realm object and populate
-                    listOf("Project 1",
-                        "Project 2",
-                        "Project 3",
-                        "Project 4",
-                        "Project 5",
-                        "Project 6",
-                        "Project 7",
-                        "Project 8",
-                        "Project 9",
-                        "Project 10",
+                    listOf("Aucademics",
+                        "Uber Placeholder",
+                        "Baller App",
+                        "Cereal killer",
+                        "Loves and Likes",
+                        "Beautiful Disaster",
+                        "Cheezels",
+                        "Game Development",
+                        "One piece IRL",
+
+
                     )
                 ){
                         index, string ->
                     Surface(elevation = 4.dp,modifier= Modifier.padding(4.dp)) {
                     Column() {
                         Text(
-                            text = "$string is on index $index",
+                            text = "$string",
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
@@ -156,9 +160,4 @@ fun MyProjectsScreen(navController: NavController) {
             }
 
     })
-}
-@Preview
-@Composable
-fun Preview() {
-    MyProjectsScreen(rememberNavController())
 }
