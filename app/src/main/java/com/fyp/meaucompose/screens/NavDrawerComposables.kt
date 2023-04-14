@@ -1,6 +1,7 @@
 package com.fyp.meaucompose.screens
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,8 +20,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.fyp.meaucompose.R
 
 data class NavDrawerItem (
     val id:String,
@@ -37,10 +40,11 @@ fun DrawerHeader() {
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.Gray)
-            .padding(vertical = 24.dp),
-        contentAlignment = Alignment.Center
+            //.padding(vertical = 24.dp),
+        ,contentAlignment = Alignment.Center
     ){
-        Text(text="Replace image",fontSize = 40.sp)
+        Image(painterResource(R.drawable.meau_bg),"content description")
+        //Text(text="Replace image",fontSize = 40.sp)
     }
 }
 
@@ -76,7 +80,7 @@ fun DrawerBody(
                 icon = Icons.Default.Build
             ),
             NavDrawerItem(
-                id = "settings",
+                id = "Settings",
                 title = "Settings",
                 contentDescription = "Go to settings screen",
                 icon = Icons.Default.Settings
@@ -93,6 +97,7 @@ fun DrawerBody(
                 contentDescription = "Go to FAQ screen",
                 icon = Icons.Default.Info
             ),
+
         )
 
     val onItemCLick: (NavDrawerItem,NavController) -> Unit = {
@@ -102,7 +107,9 @@ fun DrawerBody(
             "Home Screen" -> navController.navigate(Screens.UserHomeScreen.route)
             "My Projects" -> navController.navigate(Screens.MyProjectsScreen.route)
             "Edit Preferences" -> navController.navigate(Screens.EditPreferencesScreen.route)
+            "Matches" -> navController.navigate(Screens.ViewMatchesScreen.route)
             "FAQ" -> navController.navigate(Screens.FAQScreen.route)
+            "Settings" -> navController.navigate(Screens.SettingsScreen.route)
             else -> Toast.makeText(context, "clicked on ${it.title}", Toast.LENGTH_SHORT).show()
         }
 

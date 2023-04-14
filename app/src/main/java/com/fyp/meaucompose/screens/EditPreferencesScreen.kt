@@ -1,6 +1,8 @@
 package com.fyp.meaucompose.screens
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
@@ -32,13 +34,14 @@ fun EditPreferencesScreen(navController: NavController){
 
     var context = LocalContext.current
     var userName: String = GoogleSignIn.getLastSignedInAccount(context)?.displayName.toString()
+    val userEmail: String = GoogleSignIn.getLastSignedInAccount(context)?.email.toString()
     val scaffoldState = rememberScaffoldState()
     val scrollState = rememberScrollState()
     val scope = rememberCoroutineScope()
 
     //states TODO: populate values from DB
-    val displayNameValue = remember { mutableStateOf("")}
-    val displayDescriptionValue = remember { mutableStateOf("")}
+    val displayNameValue = remember { mutableStateOf("Example name")}
+    val displayDescriptionValue = remember { mutableStateOf("Example about")}
     val displayAddTagsValue = remember { mutableStateOf("")}
 
     val displayDepartmentValue = remember { mutableStateOf("")}
@@ -56,7 +59,8 @@ fun EditPreferencesScreen(navController: NavController){
                 }
             },
                 context = context,
-                navController = navController
+                navController = navController,
+                titleText = "Edit Preferences"
             )
         },
         drawerContent = {
@@ -72,54 +76,78 @@ fun EditPreferencesScreen(navController: NavController){
 
         },
         content ={ scaffoldPadding ->
-            Column(modifier = Modifier
-                .padding(scaffoldPadding)
-                .verticalScroll(scrollState)
-                .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Surface(
+                Modifier
+                    .padding(scaffoldPadding)
+                    .fillMaxSize()) {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(scrollState)
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
 //            verticalArrangement = Arrangement.SpaceBetween
-                ){
+                ) {
                     Column(Modifier.fillMaxWidth(0.9f)) {
                         //display email - non edit
-                        Text(text = "Email: Example@gmail.com", fontSize = 20.sp) //TODO: get mail from db
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            text = "Email: $userEmail",
+                            fontSize = 20.sp
+                        ) //TODO: get mail from db
                         Spacer(modifier = Modifier.height(20.dp))
                         //display userId - non edit
 //                    Text(text = "User: Example@gmail.com") //TODO: get mail from db
                         //display name
                         Text(text = "Display Name")
-                        OutlinedTextField(value = displayNameValue.value, onValueChange = {displayNameValue.value = it}, modifier = Modifier.fillMaxWidth())
+                        OutlinedTextField(
+                            value = displayNameValue.value,
+                            onValueChange = { displayNameValue.value = it },
+                            modifier = Modifier.fillMaxWidth()
+                        )
                         Spacer(modifier = Modifier.height(10.dp))
                         //display description
                         Text(text = "About")
-                        OutlinedTextField(value = displayDescriptionValue.value, onValueChange = {displayDescriptionValue.value = it}, modifier = Modifier
-                            .fillMaxWidth()
-                            .height(80.dp))
+                        OutlinedTextField(
+                            value = displayDescriptionValue.value,
+                            onValueChange = { displayDescriptionValue.value = it },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(80.dp)
+                        )
                         Spacer(modifier = Modifier.height(10.dp))
                         //display tags and search bar
-                        Text(text = "Your tags")
+                        Text(text = "Your skills")
                         Spacer(modifier = Modifier.height(5.dp))
 //                        LazyVerticalGrid(columns = GridCells.Adaptive(300.dp),Modifier.height(120.dp).fillMaxWidth()){
 //                            items(listOf("Android","Python","BDSM","Rainbow")) {
 //                                CategoryChip(textContent = it, isSelected = false)
 //                            }
 //                        }
-                        FlowRow(modifier = Modifier.fillMaxWidth()){
+                        FlowRow(modifier = Modifier.fillMaxWidth()) {
                             FLowRowContent()
                         }
 
                         Spacer(modifier = Modifier.height(10.dp))
 
-                        Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth().border(1.dp,Color.Black,
-                            RoundedCornerShape(50)), shape = RoundedCornerShape(50),
-                        colors = ButtonDefaults.buttonColors(Color.White)) {
+                        Button(
+                            onClick = { navController.navigate(Screens.EditTagsScreen.route) }, modifier = Modifier
+                                .fillMaxWidth()
+//                            .border(
+//                                1.dp, Color.Black,
+//                                RoundedCornerShape(50)
+//                            )
+                            , shape = RoundedCornerShape(50),
+                            colors = ButtonDefaults.buttonColors(Color.White)
+                        ) {
                             Text("Edit Tags", color = Color.Black)
                         }
 //                        OutlinedTextField(value = displayAddTagsValue.value, onValueChange = {displayAddTagsValue.value= it}, modifier = Modifier.fillMaxWidth() )
 //                        Spacer(modifier = Modifier.height(10.dp))
-                        
+
 
                     }
 
+                }
             }
 
 
@@ -150,12 +178,14 @@ fun CategoryChip(
 //    onExecuteSearch: () -> Unit
 ) {
     Surface(
-        modifier = Modifier.padding(end = 8.dp, bottom = 8.dp).border(1.dp,Color.Black, RoundedCornerShape(16.dp)),
+        modifier = Modifier
+            .padding(end = 8.dp, bottom = 8.dp)
+            .border(1.dp, Color.Black, RoundedCornerShape(16.dp)),
         //elevation = 8.dp,
         shape = RoundedCornerShape(16.dp),
         color = when {
             isSelected -> colorResource(R.color.teal_200)
-            else -> colorResource(R.color.white)
+            else -> MaterialTheme.colors.secondary
         }
     ) {
         Row(modifier = Modifier
@@ -170,7 +200,7 @@ fun CategoryChip(
             Text(
                 text = textContent,
                 fontSize = 12.sp,
-                color = Color.Black,
+                color = MaterialTheme.colors.onSecondary,
                 modifier = Modifier.padding(8.dp)
             )
         }

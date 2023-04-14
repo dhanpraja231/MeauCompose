@@ -33,8 +33,23 @@ fun Navigation( ) {
         composable(route = Screens.FAQScreen.route){
             FAQScreen(navController = navController)
         }
-
+        composable(route = Screens.RecommenderForProjectScreen.route){
+            RecommenderForProjectScreen(navController = navController)
+        }
+        composable(route = Screens.SettingsScreen.route){
+            SettingsScreen(navController = navController)
+        }
+        composable(route = Screens.EditTagsScreen.route){
+            EditTagsScreen(navController = navController)
+        }
+        composable(route = Screens.AddProjectsScreen.route){
+            AddProjectScreen(navController = navController)
+        }
+        composable(route = Screens.ViewMatchesScreen.route) {
+            ViewMatchesScreen(navController = navController)
+        }
     }
 
 
 }
+

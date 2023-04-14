@@ -52,7 +52,7 @@ fun AppBar(onNavigationIconClick: () -> Unit, context: Context,
                 Text(text = titleString,
                     fontSize = 18.sp,
                     modifier = Modifier.fillMaxHeight().widthIn(min = 150.dp,max = 190.dp).padding(top= 10.dp),
-                    textAlign = TextAlign.Center,
+                    //textAlign = TextAlign.Center,
                 )}
                 Spacer(modifier = Modifier.width(20.dp))
                 Button(

@@ -3,9 +3,11 @@ package com.fyp.meaucompose.screens
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -18,6 +20,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -38,14 +41,16 @@ import kotlinx.coroutines.launch
 fun MyProjectsScreen(navController: NavController) {
 
     var context = LocalContext.current
-    var userName: String = GoogleSignIn.getLastSignedInAccount(context)?.displayName.toString()
+    //var userName: String = GoogleSignIn.getLastSignedInAccount(context)?.displayName.toString()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
     Scaffold(
         scaffoldState = scaffoldState,
         floatingActionButtonPosition = FabPosition.End,
-        floatingActionButton = { FloatingActionButton(onClick = {}){
+        floatingActionButton = { FloatingActionButton(onClick = {
+            navController.navigate(Screens.AddProjectsScreen.route)
+        }){
             Text("+")
         } },
         topBar = {
@@ -55,7 +60,8 @@ fun MyProjectsScreen(navController: NavController) {
                 }
             },
                 context = context,
-                navController = navController
+                navController = navController,
+                titleText = "My Projects"
             )
         },
         drawerContent = {
@@ -92,7 +98,7 @@ fun MyProjectsScreen(navController: NavController) {
                     )
                 ){
                         index, string ->
-                    Surface(elevation = 4.dp,modifier= Modifier.padding(4.dp)) {
+                    Surface(elevation = 4.dp,modifier= Modifier.padding(4.dp).clickable { navController.navigate(Screens.RecommenderForProjectScreen.route) }) {
                     Column() {
                         Text(
                             text = "$string",
@@ -103,55 +109,68 @@ fun MyProjectsScreen(navController: NavController) {
                                 .fillMaxWidth()
                                 .padding(vertical = 24.dp)
                         )
-                        Row(
-                            horizontalArrangement = Arrangement.End,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Button(
-                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                                modifier = Modifier
-                                    .border(
-                                        width = 1.dp,
-                                        shape = RoundedCornerShape(50),
-                                        color = Color.DarkGray
-                                    )
-                                    .height(30.dp),
-                                shape = RoundedCornerShape(50),
-                                onClick = { /*TODO*/ }) {
-                                Text(text = "Suspend", fontSize = 8.sp, color = Color.Black)
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier =Modifier.padding(bottom = 4.dp)){
+                            Row(Modifier.weight(1f), horizontalArrangement =  Arrangement.Start){
+                                Spacer(Modifier.width(6.dp))
+                                Box(Modifier.size(15.dp).background(color = Color.Green, shape = CircleShape))
                             }
-                            Spacer(modifier = Modifier.width(2.dp))
-                            Button(
-                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                                modifier = Modifier
-                                    .border(
-                                        width = 1.dp,
-                                        shape = RoundedCornerShape(50),
-                                        color = Color.DarkGray
-                                    )
-                                    .height(30.dp),
-                                shape = RoundedCornerShape(50),
-                                onClick = { /*TODO*/ }) {
-                                Text(text = "Edit", fontSize = 8.sp, color = Color.Black)
+
+
+                            Row(
+                                horizontalArrangement = Arrangement.End,
+                                modifier = Modifier.weight(2f)
+
+                            ) {
+                                Button(
+                                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+                                    modifier = Modifier
+                                        .border(
+                                            width = 1.dp,
+                                            shape = RoundedCornerShape(50),
+                                            color = Color.DarkGray
+                                        )
+                                        .height(30.dp),
+                                    shape = RoundedCornerShape(50),
+                                    onClick = { /*TODO*/ }) {
+                                    Text(text = "Suspend", fontSize = 10.sp, color = MaterialTheme.colors.onSurface)
+                                }
+                                Spacer(modifier = Modifier.width(2.dp))
+                                Button(
+                                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+                                    modifier = Modifier
+                                        .border(
+                                            width = 1.dp,
+                                            shape = RoundedCornerShape(50),
+                                            color = Color.DarkGray
+                                        )
+                                        .height(30.dp),
+                                    shape = RoundedCornerShape(50),
+                                    onClick = { /*TODO*/ }) {
+                                    Text(text = "Edit", fontSize = 10.sp, color = MaterialTheme.colors.onSurface)
+                                }
+                                Spacer(modifier = Modifier.width(2.dp))
+                                Button(
+                                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+                                    modifier = Modifier
+                                        .border(
+                                            width = 1.dp,
+                                            shape = RoundedCornerShape(50),
+                                            color = Color.DarkGray
+                                        )
+                                        .height(30.dp),
+                                    shape = RoundedCornerShape(50),
+                                    onClick = { /*TODO*/ }) {
+                                    Text(text = "Delete", fontSize = 10.sp, color = MaterialTheme.colors.onSurface)
+                                }
+                                Spacer(modifier = Modifier.width(8.dp))
                             }
-                            Spacer(modifier = Modifier.width(2.dp))
-                            Button(
-                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                                modifier = Modifier
-                                    .border(
-                                        width = 1.dp,
-                                        shape = RoundedCornerShape(50),
-                                        color = Color.DarkGray
-                                    )
-                                    .height(30.dp),
-                                shape = RoundedCornerShape(50),
-                                onClick = { /*TODO*/ }) {
-                                Text(text = "Delete", fontSize = 8.sp, color = Color.Black)
-                            }
-                            Spacer(modifier = Modifier.width(8.dp))
+                            Spacer(modifier = Modifier.height(4.dp))
                         }
-                        Spacer(modifier = Modifier.height(4.dp))
-                    }
+
+
+
+                        }
+
 
                     }
 

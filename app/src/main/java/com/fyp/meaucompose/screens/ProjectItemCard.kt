@@ -8,6 +8,11 @@ data class ProjectItemCard(
     @DrawableRes val drawableResId: Int,
 )
 
+data class ProfileItemCard(
+    val name: String,
+    @DrawableRes val drawableResId: Int,
+)
+
 val sampleProjectList = listOf(
     ProjectItemCard("Android Project", R.drawable.icons8_google),
     ProjectItemCard("Image Processing Project",R.drawable.icons8_google),
@@ -15,12 +20,15 @@ val sampleProjectList = listOf(
     ProjectItemCard("Sample Project4", R.drawable.icons8_google),
     ProjectItemCard("Google Clone", R.drawable.icons8_google),
     ProjectItemCard("Sample Project 5", R.drawable.icons8_google),
-//    MatchProfile("Bertram Gilfoyle", R.drawable.gilfoyle),
-//
-//    MatchProfile("Peter Gregory", R.drawable.peter),
-//    MatchProfile("Jared Dunn", R.drawable.jared),
-//    MatchProfile("Nelson Bighetti", R.drawable.big_head),
-//    MatchProfile("Gavin Belson", R.drawable.gavin),
-//    MatchProfile("Jian Yang", R.drawable.jian),
-//    MatchProfile("Jack Barker", R.drawable.barker),
+)
+
+val sampleProfileItemList = listOf(
+    ProfileItemCard("Sudharshan Thirukkumaran",R.drawable.icons8_google),
+    ProfileItemCard("Vishnupriya",R.drawable.icons8_google),
+    ProfileItemCard("Sudharshan Thirukkumaran 2",R.drawable.icons8_google),
+    ProfileItemCard("Subashini",R.drawable.icons8_google),
+    ProfileItemCard("Logesh Suresh",R.drawable.icons8_google),
+    ProfileItemCard("Subramania Raja",R.drawable.icons8_google),
+
+
 )

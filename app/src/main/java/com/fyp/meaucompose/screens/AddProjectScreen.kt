@@ -1,54 +1,45 @@
 package com.fyp.meaucompose.screens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.fyp.meaucompose.R
-import com.google.accompanist.flowlayout.FlowRow
+import com.fyp.meaucompose.AppBar
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun EditTagsScreen(navController: NavController){
+fun AddProjectScreen(navController: NavController){
 
     var context = LocalContext.current
     var userName: String = GoogleSignIn.getLastSignedInAccount(context)?.displayName.toString()
-    val userEmail: String = GoogleSignIn.getLastSignedInAccount(context)?.email.toString()
     val scaffoldState = rememberScaffoldState()
-    val scrollState = rememberScrollState()
     val scope = rememberCoroutineScope()
+    val scrollState = rememberScrollState()
+
+    val etProjectNameState = remember{ mutableStateOf("") }
+    val etProjectDescription = remember{ mutableStateOf("") }
+    val etProjectComment = remember{ mutableStateOf("") }
+    val etProjectIsSuspend = remember{ mutableStateOf(false) }
+
 
     val options = listOf("Android", "Machine-Learning", "Python", "Java", "C++")
-
-    var expanded by remember { mutableStateOf(false) }
+    var isExpanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(options[0]) }
     val skillNameState = remember {
         mutableStateOf("")
@@ -65,24 +56,26 @@ fun EditTagsScreen(navController: NavController){
         "Structural-Analysis",
         "Rust",
         "Structural-Analysis"
-        )
+    )
+
 
     Scaffold(
         scaffoldState = scaffoldState,
         floatingActionButtonPosition = FabPosition.End,
-        floatingActionButton = { FloatingActionButton(onClick = {navController.navigate(Screens.EditPreferencesScreen.route)}){
-            Text("Save")
+        floatingActionButton = { FloatingActionButton(onClick = {
+
+        }){
+            Text("  Request Approval  ")
         } },
         topBar = {
-            com.fyp.meaucompose.AppBar(
-                onNavigationIconClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.open()
-                    }
-                },
+            AppBar(onNavigationIconClick = {
+                scope.launch {
+                    scaffoldState.drawerState.open()
+                }
+            },
                 context = context,
                 navController = navController,
-                titleText = "Edit Skills"
+                titleText = "Add new Project"
             )
         },
         drawerContent = {
@@ -98,35 +91,54 @@ fun EditTagsScreen(navController: NavController){
 
         },
         content ={ scaffoldPadding ->
-            Surface(
-                Modifier
-                    .padding(scaffoldPadding)
-                    .fillMaxSize()) {
+            Surface() {
                 Column(
                     Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 6.dp)) {
-
-
-                    Column(
-                        modifier = Modifier
-                            //.verticalScroll(scrollState)
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
+                        .verticalScroll(scrollState)
+                        .padding(scaffoldPadding)) {
+                    Column(Modifier.padding(horizontal = 6.dp)) {
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(text = "Enter Project Name")
+                        OutlinedTextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            value = etProjectNameState.value,
+                            onValueChange = { etProjectNameState.value = it })
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(text = "Enter Project Description")
+                        OutlinedTextField(modifier = Modifier.fillMaxWidth(),value = etProjectDescription.value, onValueChange = {etProjectDescription.value = it})
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(text = "Additional Comments")
+                        OutlinedTextField(modifier = Modifier.fillMaxWidth(),value = etProjectComment.value, onValueChange = {etProjectComment.value = it})
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(text = "Suspend Project?")
+                        Text(text= "Suspended projects will not be visible to other users", fontStyle = FontStyle.Italic, fontSize = 12.sp)
+//                        Row(Modifier.fillMaxWidth()) {
+//                        }
+                        Spacer(Modifier.height(3.dp))
+                        Row(Modifier.fillMaxWidth()) {
+                            Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
+                                RadioButton(selected = etProjectIsSuspend.value, onClick = { etProjectIsSuspend.value = true })
+                                Text("Yes")
+                            }
+                            Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically){
+                                RadioButton(selected = !etProjectIsSuspend.value, onClick = { etProjectIsSuspend.value = false })
+                                Text("No")
+                            }
+                        }
                         Column(
                             Modifier
-                                .weight(1f)
+                                //.weight(1f)
                                 .fillMaxWidth()
                         ) {
                             Spacer(Modifier.height(8.dp))
                             ExposedDropdownMenuBox(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    ,
-                                expanded = expanded,
+                                ,
+                                expanded = isExpanded,
                                 onExpandedChange = {
-                                    expanded = !expanded
+                                    isExpanded = !isExpanded
                                 }
                             ) {
                                 TextField(
@@ -136,22 +148,22 @@ fun EditTagsScreen(navController: NavController){
                                     onValueChange = { },
                                     label = {
                                         Text(
-                                            "Select skills from options",
+                                            "Select requirements from options",
                                             color = MaterialTheme.colors.onPrimary
                                         )
                                     },
                                     trailingIcon = {
                                         ExposedDropdownMenuDefaults.TrailingIcon(
-                                            expanded = expanded
+                                            expanded = isExpanded
                                         )
                                     },
                                     colors = ExposedDropdownMenuDefaults.textFieldColors()
                                 )
                                 ExposedDropdownMenu(
                                     modifier = Modifier.fillMaxWidth(),
-                                    expanded = expanded,
+                                    expanded = isExpanded,
                                     onDismissRequest = {
-                                        expanded = false
+                                        isExpanded = false
                                     }
                                 ) {
                                     options.forEach { selectionOption ->
@@ -159,7 +171,7 @@ fun EditTagsScreen(navController: NavController){
                                             modifier = Modifier.fillMaxWidth(),
                                             onClick = {
                                                 selectedOptionText = selectionOption
-                                                expanded = false
+                                                isExpanded = false
                                             }
                                         ) {
                                             Text(text = selectionOption, fontSize = 12.sp)
@@ -170,7 +182,7 @@ fun EditTagsScreen(navController: NavController){
 
                             Spacer(modifier = Modifier.height(10.dp))
 
-                            Text("Or specify your niche skills here")
+                            Text("Or specify your niche requirements here")
                             Spacer(modifier = Modifier.height(2.dp))
                             Surface(
                                 elevation = 5.dp, modifier = Modifier
@@ -194,17 +206,17 @@ fun EditTagsScreen(navController: NavController){
                                 }
                             }
                             Spacer(modifier = Modifier.height(10.dp))
-                            Text(text = "Your Skills")
+                            Text(text = "Your Requirements")
                             Spacer(modifier = Modifier.height(2.dp))
                             Column(
                                 Modifier
-                                    .weight(2f)
+                                    //.weight(2f)
                                     .fillMaxWidth()
                             ) {
                                 Surface(elevation = 5.dp, modifier = Modifier.fillMaxSize()) {
                                     LazyColumn(
                                         Modifier
-                                            .fillMaxSize()
+                                            .height(300.dp)
                                             .padding(top = 4.dp, bottom = 10.dp)
                                     ) {
                                         items(existingSkillList) { item ->
@@ -242,16 +254,18 @@ fun EditTagsScreen(navController: NavController){
                                     }
                                 }
                             }
-
+                            Spacer(Modifier.height(6.dp))
                         }
 
 
+
                     }
+
                 }
             }
+
+
+
         })
 
-
-
 }
-

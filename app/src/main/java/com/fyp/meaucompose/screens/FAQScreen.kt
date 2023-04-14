@@ -82,7 +82,7 @@ fun FAQMainContent(scaffoldPadding: PaddingValues){
         ){
                 index, FAQItem ->
             Surface(elevation = 4.dp,modifier= Modifier.padding(4.dp), shape = RoundedCornerShape(4.dp)) {
-                Column() {
+                Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)) {
                     Text(
                         text = "${FAQItem.question}",
                         fontSize = 24.sp,
